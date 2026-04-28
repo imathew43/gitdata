@@ -61,7 +61,6 @@ public class GithubService {
         if (response == null) {
             return false;
         }
-        log.info("Checking for next [{}]", response.getHeaders().getOrEmpty(LINK_HEADER).stream().findFirst().orElse("foo"));
         return response.getHeaders().getOrEmpty(LINK_HEADER).stream().findFirst().orElse("").contains(NEXT_PARAM);
     }
 
