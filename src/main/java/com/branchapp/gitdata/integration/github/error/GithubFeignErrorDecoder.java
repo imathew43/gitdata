@@ -4,6 +4,11 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Custom error decoder for error handling based on elements of REST response.
+ *
+ * Handles and parses rate limit issues, falling back to default decoder
+ */
 @Slf4j
 public class GithubFeignErrorDecoder implements ErrorDecoder {
     private ErrorDecoder fallback = new Default();

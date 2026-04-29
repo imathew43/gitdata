@@ -6,6 +6,12 @@ Service to retrieve user and repository data from github.
 
 ## Running the Code
 
+### Requirements
+
+* Java 21
+
+### Run
+
 ```shell
 ./gradlew bootRun
 ```

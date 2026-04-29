@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service to manage Github integration and Github API communication
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,6 +27,11 @@ public class GithubService {
     private static final String LINK_HEADER = "link";
     private static final String NEXT_PARAM = "next";
 
+    /**
+     * Get a user from Github by username
+     * @param username the username of the user to query
+     * @return a representation of the Github user, or Empty if not present
+     */
     @Cacheable("users")
     public Optional<User> getUserByUsername(String username) {
         log.info("Querying github for username [{}]", username);
@@ -34,6 +42,11 @@ public class GithubService {
         }
     }
 
+    /**
+     * Get all repositories for the provided username
+     * @param username the username to search
+     * @return all github repositories for the provided user, or an error if the user does not exist
+     */
     @Cacheable("repositories")
     public List<Repository> getRepositoriesForUsername(String username) {
         log.info("Querying github for repositories for username [{}]", username);
@@ -49,6 +62,12 @@ public class GithubService {
         return repositoryList;
     }
 
+    /**
+     * Retrieve a single page of github repositories for the provided user
+     * @param username the username of the user
+     * @param page 1-indexed page number
+     * @return a Response to be parsed
+     */
     private ResponseEntity<List<Repository>> getRepositoryPage(String username, int page) {
         try {
             return feign.getRepositoriesForUsername(username, PAGE_SIZE, page);
