@@ -6,8 +6,10 @@ import com.branchapp.gitdata.integration.github.model.Repository;
 import com.branchapp.gitdata.integration.github.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,6 +62,24 @@ public class GithubService {
         } while (hasNext(activeResponse));
 
         return repositoryList;
+    }
+
+    /**
+     * Clearing user repository cache everyday at midnight, as repositories may change often
+     */
+    @Scheduled(cron = "0 0 0 * * *")
+    @CacheEvict(allEntries=true, value = "repositories")
+    public void clearRepositoryCache() {
+        log.debug("Clearing repository cache");
+    }
+
+    /**
+     * Clearing user cache weekly at midnight on Sunday, as the user information we are retrieving is likely static
+     */
+    @Scheduled(cron = "0 0 0 * * 0")
+    @CacheEvict(allEntries=true, value = "users")
+    public void clearUserCache() {
+        log.debug("Clearing user cache");
     }
 
     /**

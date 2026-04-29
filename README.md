@@ -38,7 +38,12 @@ Currently set to listen on Port 8080, supporting HTTP - can be configured differ
 
 ### Caching
 
-Caching utilizing default Spring Caching and `@Cacheable` interface with permanent TTL.
+Data from Github is cached utilizing default Spring Caching and `@Cacheable` interface.
+
+Repository cache is cleared daily at midnight, as repository information may change often.
+
+User cache is cleared weekly, Sunday at Midnight, as User information is unlikely to change often.
+
 
 TODO: switch to ehcache or redis and configure TTL.
 
